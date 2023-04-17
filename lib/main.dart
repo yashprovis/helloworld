@@ -30,22 +30,23 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List games = [];
+
   void fetchGames() async {
     games.clear();
     setState(() {});
-    http.Response res = await http.get(
-      Uri.parse("https://api.rawg.io/api/games?key=$rawgKey"),
-    );
-    print(res.body);
-    if (res.statusCode == 200) {
-      setState(() {
-        games = jsonDecode(res.body)["results"];
-      });
-    } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Not found')));
-    }
-    setState(() {});
+    await http
+        .get(Uri.parse("https://api.rawg.io/api/games?key=$rawgKey"))
+        .then((value) {
+      if (value.statusCode == 200) {
+        setState(() {
+          games = jsonDecode(value.body)["results"];
+        });
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Not found')));
+      }
+      setState(() {});
+    });
   }
 
   @override
