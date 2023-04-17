@@ -5,7 +5,7 @@ name: Android Release
 on:
   push:
     branches:
-      - master
+      - main
 
 # on: push    # Default will running for every branch.
 
@@ -39,11 +39,9 @@ jobs:
       # - run: flutter test
 
       # Build apk.
-      - run: flutter build apk --dart-define=TAXI_TAXI_STRIPE_PUB=$TAXI_TAXI_STRIPE_PUB --dart-define=TAXI_TAXI_STRIPE_SEC=$TAXI_TAXI_STRIPE_SEC --dart-define=TAXI_TAXI_GOOGLE_MAPS=$TAXI_TAXI_GOOGLE_MAPS
-        env:         
-          TAXI_TAXI_STRIPE_PUB: ${{ secrets.TAXI_TAXI_STRIPE_PUB }}
-          TAXI_TAXI_STRIPE_SEC: ${{ secrets.TAXI_TAXI_STRIPE_SEC }}
-          TAXI_TAXI_GOOGLE_MAPS: ${{ secrets.TAXI_TAXI_GOOGLE_MAPS }}
+      - run: flutter build apk --dart-define=RAWG_KEY=$RAWG_KEY
+        env:
+          RAWG_KEY: ${{ secrets.RAWG_KEY }}
 
       # Upload generated apk to the artifacts.
       - uses: actions/upload-artifact@v3
